@@ -1,0 +1,31 @@
+@import "tailwindcss";
+@custom-variant dark (&:where(.dark, .dark *));
+
+@layer utilities {
+  .police-tape-bar {
+    background: repeating-linear-gradient(
+      -45deg,
+      #facc15,
+      #facc15 14px,
+      #18181b 14px,
+      #18181b 28px
+    );
+  }
+  .police-tape-subtle {
+    background: repeating-linear-gradient(
+      -45deg,
+      rgba(250, 204, 21, 0.25),
+      rgba(250, 204, 21, 0.25) 10px,
+      rgba(24, 24, 27, 0.25) 10px,
+      rgba(24, 24, 27, 0.25) 20px
+    );
+  }
+}
+
+body {
+  font-family: 'Noto Sans KR', system-ui, -apple-system, sans-serif;
+}
+
+.font-impact {
+  font-family: 'Black Han Sans', 'Plus Jakarta Sans', sans-serif;
+}

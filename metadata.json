@@ -1,0 +1,6 @@
+{
+  "name": "제 8회 보드방정 정모 - 대현산 추격전",
+  "description": "대현산 배수지공원에서 펼쳐지는 경찰과 도둑 야외 추격전 모바일 가이드 및 현장 유틸리티 (룰북, 타이머, 걸음수 계산기, 팀 추첨기, 감옥지기 퀴즈)",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
