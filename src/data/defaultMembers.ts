@@ -28,10 +28,10 @@ export const INITIAL_MEMBERS: Member[] = [
   {
     id: 'm4',
     name: '심완기',
-    title: '고문 / 감옥지기',
+    title: '감옥지기',
     mbti: 'ISFJ',
     role: 'warden',
-    description: '★ 공식 감옥지기 ★ 체포된 도둑 수감 관리 및 구출 퀴즈를 심판하는 절대권력',
+    description: '★ 공식 감옥지기 ★ 체포된 도둑 수감 관리 및 구출 퀴즈를 심판하는 수문장',
     isFixedWarden: true
   },
   {

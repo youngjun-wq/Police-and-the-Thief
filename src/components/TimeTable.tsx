@@ -8,7 +8,7 @@ const TIMELINE_DATA: TimelineItem[] = [
     duration: '60분',
     title: '집결 & 공원 답사 & 팀 편성',
     description:
-      '대현산 배수지공원 집결! 다 함께 게임 가능 구역과 위험 구역을 현장 답사하고, 가벼운 자기소개 및 룰·안전수칙을 상세 브리핑합니다. (경찰 4 vs 도둑 10 vs 감옥지기 심완기 1 팀 편성)',
+      '대현산 배수지공원 집결! 다 함께 게임 가능 구역과 위험 구역을 현장 답사하고, 가벼운 자기소개 및 룰·안전수칙을 상세 브리핑합니다. (경찰 4 vs 도둑 10 vs 감옥지기 (심완기) 1 팀 편성)',
     iconName: 'map',
   },
   {
@@ -16,7 +16,7 @@ const TIMELINE_DATA: TimelineItem[] = [
     duration: '50분',
     title: '🚨 경찰과 도둑 메인 게임 (대현산 추격전)',
     description:
-      '손가락 막대기로 무장한 경찰과 평균 3,500보 제한 미션을 받은 도둑의 치열한 두뇌·추격전! 감옥지기 심완기의 수감 관리 및 동료 구출 퀴즈 풀기.',
+      '손가락 막대기로 무장한 경찰과 평균 3,500보 제한 미션을 받은 도둑의 치열한 두뇌·추격전! 감옥지기 (심완기)의 수감 관리 및 동료 구출 퀴즈 풀기.',
     highlight: true,
     iconName: 'shield',
   },
@@ -25,7 +25,7 @@ const TIMELINE_DATA: TimelineItem[] = [
     duration: '10분',
     title: '만보기 걸음수 정산 & 결과 발표 & 단체사진',
     description:
-      '도둑 팀 전체의 스마트폰 만보기 걸음수를 합산하여 평균 3,500보 초과 여부 확인! 생존 도둑 유무와 합산하여 최종 승리팀 판정 및 단체 기념사진 촬영.',
+      '도둑 팀 전체의 실물 만보기 걸음수를 합산하여 평균 3,500보 초과 여부 확인! 생존 도둑 유무와 합산하여 최종 승리팀 판정 및 단체 기념사진 촬영.',
     iconName: 'award',
   },
   {
@@ -115,7 +115,7 @@ export const TimeTable: React.FC = () => {
                     {item.title}
                   </h3>
 
-                  <p className="text-xs sm:text-sm text-zinc-300 leading-relaxed font-normal">
+                  <p className="text-xs sm:text-sm text-zinc-300 leading-relaxed font-normal break-keep">
                     {item.description}
                   </p>
                 </div>

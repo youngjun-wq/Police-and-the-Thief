@@ -101,9 +101,9 @@ export const PoliceHeader: React.FC<Props> = ({ onOpenExport, onOpenTimer }) => 
                 (경찰과 도둑)
               </span>
             </h1>
-            <p className="text-sm sm:text-base text-zinc-300 font-normal leading-relaxed">
+            <p className="text-sm sm:text-base text-zinc-300 font-normal leading-relaxed break-keep">
               대현산 배수지공원 한복판에서 펼쳐지는 50분의 숨막히는 심리·추격전!
-              손가락 지휘봉의 경찰 4명과 3,500보 제한 미션의 도둑 10명, 그리고 감옥지기 심완기의 정모 공식 모바일 가이드.
+              손가락 지휘봉의 경찰 4명과 3,500보 제한 미션의 도둑 10명, 그리고 감옥지기 (심완기)의 정모 공식 모바일 가이드.
             </p>
           </div>
 

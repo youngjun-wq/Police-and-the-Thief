@@ -26,7 +26,7 @@ export const LocationGuide: React.FC = () => {
                 <Navigation className="w-4 h-4 text-amber-400" />
                 <span>대현산 배수지공원 광장</span>
               </div>
-              <p className="text-xs text-zinc-400 leading-relaxed mb-3">
+              <p className="text-xs text-zinc-400 leading-relaxed mb-3 break-keep">
                 관리사무소 앞 넓은 보행 광장에서 <strong>16:00 정각</strong>에 집결합니다.
                 공원이 넓으므로 여유 있게 10분 전 도착을 권장합니다!
               </p>

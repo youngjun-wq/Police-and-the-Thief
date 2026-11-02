@@ -98,7 +98,7 @@ export const TeamRandomizer: React.FC = () => {
                 참가자 명단 & 스마트 팀 추첨기
               </h2>
               <p className="text-xs text-zinc-400">
-                심완기 고문(감옥지기 고정) 외 인원을 경찰 4명 vs 도둑 10명으로 자동 셔플
+                감옥지기 (심완기) 외 인원을 경찰 4명 vs 도둑 10명으로 자동 셔플
               </p>
             </div>
           </div>

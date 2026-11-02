@@ -46,6 +46,11 @@
       color: #f4f4f5;
       margin: 0;
       padding: 0;
+      word-break: keep-all;
+      overflow-wrap: break-word;
+    }
+    .break-keep {
+      word-break: keep-all;
     }
     .font-impact {
       font-family: 'Black Han Sans', sans-serif;
@@ -101,9 +106,9 @@
         대현산 <span class="text-amber-400 drop-shadow-[0_2px_10px_rgba(250,204,21,0.3)]">추격전</span>
         <span class="text-2xl text-zinc-400 font-sans font-bold ml-1.5">(경찰과 도둑)</span>
       </h1>
-      <p class="text-xs sm:text-sm text-zinc-300 leading-relaxed mb-4">
+      <p class="text-xs sm:text-sm text-zinc-300 leading-relaxed mb-4 break-keep">
         대현산 배수지공원 한복판에서 벌어지는 숨막히는 경찰과 도둑의 50분 심리·추격전!
-        손가락 막대기의 경찰 4명과 3,500보 제한 미션의 도둑 10명, 그리고 감옥지기 심완기의 정모 공식 가이드.
+        손가락 막대기의 경찰 4명과 3,500보 제한 미션의 도둑 10명, 그리고 감옥지기 (심완기)의 정모 공식 가이드.
       </p>
 
       <!-- KEY METRICS GRID -->
@@ -167,8 +172,8 @@
             <span class="px-1.5 py-0.5 rounded text-[10px] font-black bg-red-600 text-white">MAIN EVENT</span>
           </div>
           <div class="text-sm font-bold text-white mt-0.5">🚨 제 8회 대현산 추격전 (경찰과 도둑 본격 가동)</div>
-          <p class="text-xs text-zinc-300 mt-1 leading-relaxed">
-            손가락 막대기를 든 경찰 vs 평균 3,500보 제한 미션의 도둑! 감옥지기 심완기의 수감 관리 및 동료 구출 퀴즈와 심리전이 오가는 50분 실전 추격전!
+          <p class="text-xs text-zinc-300 mt-1 leading-relaxed break-keep">
+            손가락 막대기를 든 경찰 vs 평균 3,500보 제한 미션의 도둑! 감옥지기 (심완기)의 수감 관리 및 동료 구출 퀴즈와 심리전이 오가는 50분 실전 추격전!
           </p>
         </div>
 
@@ -224,7 +229,7 @@
             <div class="p-3 rounded-xl bg-zinc-900 border border-zinc-800 space-y-2 mt-2">
               <p><span class="text-blue-400 font-bold">👮‍♂️ 경찰 (4명):</span> '손가락 막대기'로 도둑의 신체를 꾹 찔러 검거! 과도한 신체 접촉, 밀치기, 옷 잡기, 진로 막기는 엄격히 금지됩니다.</p>
               <p><span class="text-amber-400 font-bold">🦹‍♂️ 도둑 (10명):</span> 경찰을 피해 도망치며, <strong>평균 걸음 수 3,500보 제한</strong> 미션을 수행합니다! 감옥에 갇힌 동료들을 구출할 수 있습니다.</p>
-              <p><span class="text-purple-400 font-bold">🗝️ 감옥지기 (심완기 고문):</span> 감옥 존을 총괄 관리합니다. 체포된 도둑 수감 확인, 동료 구출 시도 시 퀴즈 출제 및 판정. 직접 추격전에 뛰어들지 않습니다.</p>
+              <p><span class="text-purple-400 font-bold">🗝️ 감옥지기 (심완기):</span> 감옥 존을 총괄 관리합니다. 체포된 도둑 수감 확인, 동료 구출 시도 시 퀴즈 출제 및 판정. 직접 추격전에 뛰어들지 않습니다.</p>
             </div>
           </div>
         </div>
@@ -241,7 +246,7 @@
           <div id="rule-2" class="px-4 pb-4 text-xs text-zinc-300 space-y-2 border-t border-zinc-800/60 pt-3">
             <p>• 경찰의 <strong>손가락 막대기</strong> 끝이 도둑의 신체(옷이나 소지품 포함)에 닿으면 즉시 체포로 판정됩니다.</p>
             <p>• 체포된 도둑은 저항하거나 도망치지 않고, 두 손을 들고 주변에 체포되었음을 알리며 감옥 구역으로 신속히 이동합니다.</p>
-            <p>• 감옥에 도착하면 감옥지기(심완기)에게 본인의 체포를 신고하고 수감 라인 안에서 대기합니다.</p>
+            <p>• 감옥에 도착하면 감옥지기 (심완기)에게 본인의 체포를 신고하고 수감 라인 안에서 대기합니다.</p>
             <p class="text-amber-300 font-semibold">※ 감옥 내부(세이프 존)에 대기 중인 도둑은 경찰이 추가로 터치할 수 없습니다.</p>
           </div>
         </div>
@@ -251,17 +256,17 @@
           <button onclick="toggleAccordion('rule-3')" class="w-full p-4 flex items-center justify-between text-left hover:bg-zinc-800/40 transition-colors">
             <div class="flex items-center gap-2">
               <span class="px-2 py-0.5 rounded text-[11px] font-bold bg-emerald-600 text-white">구출</span>
-              <span class="text-sm font-bold text-white">3. 동료 구출 및 감옥지기 퀴즈 규칙</span>
+              <span class="text-sm font-bold text-white">3. 동료 구출 및 감옥지기 (심완기) 퀴즈 규칙</span>
             </div>
             <span id="icon-rule-3" class="text-zinc-400 text-xs">▲</span>
           </button>
           <div id="rule-3" class="px-4 pb-4 text-xs text-zinc-300 space-y-2 border-t border-zinc-800/60 pt-3">
             <p>• 살아있는 도둑이 감옥 구역(구출 라인)에 안전하게 도착하여 감옥지기에게 <strong>"구출 신청!"</strong>을 외칩니다.</p>
-            <p>• 감옥지기(심완기)가 준비된 퀴즈(상식, 넌센스, 스피드 등)를 1문제 출제합니다.</p>
+            <p>• 감옥지기 (심완기)가 준비된 퀴즈(상식, 넌센스, 스피드 등)를 1문제 출제합니다.</p>
             <div class="p-3 rounded-xl bg-emerald-950/40 border border-emerald-500/40 text-emerald-300 font-bold">
               ★ 정답 판정 시: 현재 감옥에 갇혀 있는 도둑 동료 전원 즉시 구출(대탈출)! 모두 다 함께 감옥 밖으로 탈출합니다!
             </div>
-            <p>• <strong>오답 시:</strong> 즉시 탈출 불가! 다른 문제로 재도전해야 합니다.</p>
+            <p>• <strong>오답 판정 시:</strong> 구출 실패! 즉시 재도전할 수 없으며, <strong>1분 뒤에 다시 도전 가능</strong>합니다. (1분 쿨타임)</p>
             <p class="text-red-400 font-semibold">⚠️ 주의: 문제를 푸는 도중 경찰에게 막대기로 찔리면 구출 시도자도 즉시 체포되어 함께 감옥에 갇힙니다!</p>
           </div>
         </div>
@@ -277,7 +282,7 @@
           </button>
           <div id="rule-4" class="px-4 pb-4 text-xs text-zinc-300 space-y-2 border-t border-zinc-800/60 pt-3">
             <div class="p-3 rounded-xl bg-amber-400/10 border border-amber-400/30 text-amber-300 font-bold">
-              ★ 스마트폰 만보기가 아닙니다! 게임 시작 전 방장이 각 참가자의 신체에 실물 만보기 기기를 직접 장착해 드립니다.
+              ★ 게임 시작 전 방장이 각 참가자의 신체에 실물 만보기 기기를 직접 장착해 드립니다.
             </div>
             <p>• 도둑은 무작정 뛰어다니기만 하면 패배합니다! 전략적인 은신과 에너지 안배가 필수입니다.</p>
             <p>• <strong>감옥 탈출 시 만보기 규칙:</strong> 감옥에서 탈출한 도둑은 착용한 실물 만보기의 리셋 버튼을 눌러 <strong>0보로 즉시 재초기화(리셋)</strong>하고, 탈출 이후의 걸음 수만 최종 정산에 반영합니다.</p>
@@ -378,8 +383,8 @@
         </button>
       </div>
 
-      <p class="text-xs text-zinc-400 mb-3">
-        심완기 고문님(감옥지기 고정) 외에 나머지 인원을 <strong>경찰 4명 vs 도둑 10명</strong>으로 공정하게 랜덤 셔플합니다.
+      <p class="text-xs text-zinc-400 mb-3 break-keep">
+        감옥지기 (심완기) 외에 나머지 인원을 <strong>경찰 4명 vs 도둑 10명</strong>으로 공정하게 랜덤 셔플합니다.
       </p>
 
       <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs mb-4" id="roster-grid">
@@ -618,7 +623,7 @@
       { id: 1, name: '정영준', title: '방장', mbti: 'ENFJ', role: '도둑' },
       { id: 2, name: '김준형', title: '부방장', mbti: 'ENFP', role: '도둑' },
       { id: 3, name: '기명찬', title: '실장', mbti: 'ISTJ', role: '경찰' },
-      { id: 4, name: '심완기', title: '고문', mbti: 'ISFJ', role: '감옥지기' },
+      { id: 4, name: '심완기', title: '감옥지기', mbti: 'ISFJ', role: '감옥지기' },
       { id: 5, name: '권성환', title: '작가', mbti: 'ISFP', role: '경찰' },
       { id: 6, name: '최은혜', title: '영양사', mbti: 'INTP', role: '도둑' },
       { id: 7, name: '이준수', title: '비서', mbti: 'ISFP', role: '경찰' },
