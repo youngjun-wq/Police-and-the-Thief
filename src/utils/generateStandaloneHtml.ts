@@ -104,7 +104,7 @@ export function generateStandaloneHtml(): string {
       </h1>
       <p class="text-xs sm:text-sm text-zinc-300 leading-relaxed mb-4 break-keep">
         대현산 배수지공원 한복판에서 벌어지는 숨막히는 경찰과 도둑의 50분 심리·추격전!
-        손가락 막대기의 경찰 4명과 3,500보 제한 미션의 도둑 10명, 그리고 감옥지기 (심완기)의 정모 공식 가이드.
+        손가락 막대기의 경찰 5명과 3,500보 제한 미션의 도둑 10명, 그리고 감옥지기 (심완기)의 정모 공식 가이드.
       </p>
 
       <!-- KEY METRICS GRID -->
@@ -126,8 +126,8 @@ export function generateStandaloneHtml(): string {
         </div>
         <div class="p-3 rounded-2xl bg-zinc-950/80 border border-zinc-800">
           <div class="text-zinc-400 mb-0.5">👥 인원 규모</div>
-          <div class="font-bold text-white text-sm">7인 + 게스트 8인</div>
-          <div class="text-[11px] text-emerald-400 font-semibold mt-0.5">최대 15인 진행</div>
+          <div class="font-bold text-white text-sm">운영진 7인 + 게스트 9인</div>
+          <div class="text-[11px] text-emerald-400 font-semibold mt-0.5">총 16인 (경찰 5 / 도둑 10 / 감옥 1)</div>
         </div>
       </div>
     </header>
@@ -213,9 +213,9 @@ export function generateStandaloneHtml(): string {
           </button>
           <div id="rule-1" class="px-4 pb-4 text-xs text-zinc-300 space-y-2 border-t border-zinc-800/60 pt-3">
             <p><strong>진행 시간:</strong> 17:00 ~ 17:50 (총 50분 진행)</p>
-            <p><strong>인원 구성:</strong> 총 15명 내외 (경찰 4명 / 도둑 10명 / 감옥지기 심완기 1명)</p>
+            <p><strong>인원 구성:</strong> 총 16명 (경찰 5명 / 도둑 10명 / 감옥지기 심완기 1명)</p>
             <div class="p-3 rounded-xl bg-zinc-900 border border-zinc-800 space-y-2 mt-2">
-              <p><span class="text-blue-400 font-bold">👮‍♂️ 경찰 (4명):</span> '손가락 막대기'로 도둑의 신체를 꾹 찔러 검거! 과도한 신체 접촉, 밀치기, 옷 잡기, 진로 막기는 엄격히 금지됩니다.</p>
+              <p><span class="text-blue-400 font-bold">👮‍♂️ 경찰 (5명):</span> '손가락 막대기'로 도둑의 신체를 꾹 찔러 검거! 과도한 신체 접촉, 밀치기, 옷 잡기, 진로 막기는 엄격히 금지됩니다.</p>
               <p><span class="text-amber-400 font-bold">🦹‍♂️ 도둑 (10명):</span> 경찰을 피해 도망치며, <strong>평균 걸음 수 3,500보 제한</strong> 미션을 수행합니다! 감옥에 갇힌 동료들을 구출할 수 있습니다.</p>
               <p><span class="text-purple-400 font-bold">🗝️ 감옥지기 (심완기):</span> 감옥 존을 총괄 관리합니다. 체포된 도둑 수감 확인, 동료 구출 시도 시 퀴즈 출제 및 판정. 직접 추격전에 뛰어들지 않습니다.</p>
             </div>

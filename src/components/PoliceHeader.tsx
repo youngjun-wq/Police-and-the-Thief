@@ -103,7 +103,7 @@ export const PoliceHeader: React.FC<Props> = ({ onOpenExport, onOpenTimer }) => 
             </h1>
             <p className="text-sm sm:text-base text-zinc-300 font-normal leading-relaxed break-keep">
               대현산 배수지공원 한복판에서 펼쳐지는 50분의 숨막히는 심리·추격전!
-              손가락 지휘봉의 경찰 4명과 3,500보 제한 미션의 도둑 10명, 그리고 감옥지기 (심완기)의 정모 공식 모바일 가이드.
+              손가락 지휘봉의 경찰 5명과 3,500보 제한 미션의 도둑 10명, 그리고 감옥지기 (심완기)의 정모 공식 모바일 가이드.
             </p>
           </div>
 
@@ -148,8 +148,8 @@ export const PoliceHeader: React.FC<Props> = ({ onOpenExport, onOpenTimer }) => 
                 <span>참가 인원</span>
               </div>
               <div>
-                <div className="font-extrabold text-sm sm:text-base text-white">7인 + 게스트 8인</div>
-                <div className="text-[11px] text-emerald-400 font-semibold">최대 15인 규모</div>
+                <div className="font-extrabold text-sm sm:text-base text-white">7인 + 게스트 9인</div>
+                <div className="text-[11px] text-emerald-400 font-semibold">총 16인 (경찰 5 / 도둑 10)</div>
               </div>
             </div>
           </div>

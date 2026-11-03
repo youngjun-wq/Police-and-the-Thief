@@ -5,6 +5,8 @@ export interface Member {
   mbti: string;
   role: 'police' | 'thief' | 'warden' | 'unassigned';
   description: string;
+  age?: string;
+  prefRole?: 'police' | 'thief' | 'warden' | 'any';
   isFixedWarden?: boolean;
 }
 

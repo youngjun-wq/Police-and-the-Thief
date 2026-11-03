@@ -28,8 +28,13 @@ export const TeamRandomizer: React.FC = () => {
         [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
       }
 
-      // Assign first 4 as police, rest as thieves
-      const policeIds = new Set(shuffled.slice(0, 4).map((m) => m.id));
+      // Prioritize members who prefer police, then neutral/any, then thief preferrers
+      const policePreferrers = shuffled.filter((m) => m.prefRole === 'police');
+      const neutralPreferrers = shuffled.filter((m) => m.prefRole === 'any' || !m.prefRole);
+      const thiefPreferrers = shuffled.filter((m) => m.prefRole === 'thief');
+
+      const orderedForPolice = [...policePreferrers, ...neutralPreferrers, ...thiefPreferrers];
+      const policeIds = new Set(orderedForPolice.slice(0, 5).map((m) => m.id));
 
       const updated = members.map((m) => {
         if (m.isFixedWarden) {
@@ -98,7 +103,7 @@ export const TeamRandomizer: React.FC = () => {
                 참가자 명단 & 스마트 팀 추첨기
               </h2>
               <p className="text-xs text-zinc-400">
-                감옥지기 (심완기) 외 인원을 경찰 4명 vs 도둑 10명으로 자동 셔플
+                감옥지기 (심완기) 외 인원을 경찰 5명 vs 도둑 10명으로 자동 셔플
               </p>
             </div>
           </div>
@@ -121,7 +126,7 @@ export const TeamRandomizer: React.FC = () => {
               <span>경찰 팀</span>
             </div>
             <div className="text-xl font-impact text-white tabular-nums">
-              {policeCount} <span className="text-xs font-sans text-zinc-400">/ 4명 목표</span>
+              {policeCount} <span className="text-xs font-sans text-zinc-400">/ 5명 목표</span>
             </div>
           </div>
 
@@ -200,8 +205,14 @@ export const TeamRandomizer: React.FC = () => {
                     </button>
                   </div>
 
+                  {m.prefRole && m.prefRole !== 'any' && !m.isFixedWarden && (
+                    <div className="mb-1 text-[10px] text-zinc-400 font-medium">
+                      희망: <span className={m.prefRole === 'police' ? 'text-blue-400 font-bold' : 'text-amber-400 font-bold'}>{m.prefRole === 'police' ? '👮 경찰 선호' : '🦹 도둑 선호'}</span>
+                    </div>
+                  )}
+
                   <p className="text-[11px] text-zinc-400 leading-tight line-clamp-2">
-                    {m.description}
+                    {m.description || (m.age ? `${m.age}세` : '')}
                   </p>
                 </div>
 
