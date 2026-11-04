@@ -381,10 +381,10 @@
           <div>
             <div class="flex items-center gap-2 flex-wrap">
               <h2 class="text-lg sm:text-xl font-impact tracking-wide text-white">
-                선수단 명단 & 스펙
+                선수단 명단 & 실시간 검거 현황
               </h2>
-              <span class="text-xs px-2.5 py-0.5 rounded-full bg-amber-400 text-black font-sans font-black shadow-sm">
-                총 16인
+              <span class="text-xs px-2.5 py-0.5 rounded-full bg-zinc-800 text-zinc-300 border border-zinc-700 font-sans font-bold shadow-sm">
+                🔒 명단 확정 (수정 마감)
               </span>
               <span class="text-[11px] px-2.5 py-0.5 rounded-full bg-emerald-950/80 text-emerald-300 border border-emerald-500/40 flex items-center gap-1.5 font-bold shadow-sm">
                 <span class="w-2 h-2 rounded-full bg-emerald-400 inline-block animate-ping"></span>
@@ -392,7 +392,7 @@
               </span>
             </div>
             <div class="text-xs text-zinc-400 mt-0.5">
-              휴대폰이나 웹에서 입력한 모든 스펙과 희망 역할이 <strong class="text-emerald-400 font-bold">모든 참가자 기기에 실시간으로 자동 동기화</strong>됩니다. (역할 배정은 현장 진행)
+              도둑 체포 시 감옥지기(심완기)나 운영진이 터치하면 <strong class="text-emerald-400 font-bold">모든 참가자 기기에 즉시 실시간 검거 완료</strong>로 동기화됩니다.
             </div>
           </div>
         </div>
@@ -403,7 +403,7 @@
             <span>🔄 실시간 새로고침</span>
           </button>
           <button onclick="copyRosterText()" class="px-3.5 py-2 rounded-xl bg-amber-400 hover:bg-amber-300 text-black text-xs font-black flex items-center gap-1.5 active:scale-95 transition-all shadow-md shadow-amber-400/20">
-            <span>📋 선수단 명단 복사</span>
+            <span>📋 검거 현황 명단 복사</span>
           </button>
         </div>
       </div>
@@ -412,44 +412,62 @@
       <div id="cloud-sync-toast" class="hidden p-2.5 rounded-2xl bg-emerald-950/60 border border-emerald-500/50 text-xs text-emerald-300 flex items-center justify-between transition-all animate-in fade-in">
         <span class="flex items-center gap-2">
           <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-          <span id="cloud-sync-toast-text">다른 참가자가 입력한 정보가 실시간으로 반영되었습니다!</span>
+          <span id="cloud-sync-toast-text">실시간 정보가 동기화되었습니다!</span>
         </span>
         <span class="text-[10px] text-emerald-400/80 font-mono">LIVE SYNC</span>
       </div>
 
-      <!-- Role Preference Filters Strip -->
-      <div class="space-y-2 pt-1">
-        <div class="flex items-center gap-1.5 flex-wrap text-xs">
+      <!-- Realtime Arrest Scoreboard Strip -->
+      <div class="space-y-2.5 pt-1">
+        <div class="p-3.5 rounded-2xl bg-zinc-950 border border-zinc-800 flex items-center justify-between flex-wrap gap-2.5 text-xs shadow-inner">
+          <div class="flex items-center gap-2 flex-wrap">
+            <span class="text-base">⚖️</span>
+            <span class="font-extrabold text-white">팀 배정 현황:</span>
+            <span id="badge-stat-police" class="px-2.5 py-1 rounded-xl bg-blue-600 text-white font-black text-xs shadow-sm shadow-blue-900/40">
+              경찰 5명
+            </span>
+            <span id="badge-stat-thief-total" class="px-2.5 py-1 rounded-xl bg-amber-400 text-black font-black text-xs shadow-sm shadow-amber-950/40">
+              도둑 10명
+            </span>
+            <span class="text-zinc-600 font-bold">|</span>
+            <span class="font-bold text-zinc-300">검거:</span>
+            <span id="badge-stat-arrested" class="px-2.5 py-1 rounded-xl bg-red-600 text-white font-black text-xs shadow-md shadow-red-950/50 flex items-center gap-1.5">
+              <span class="w-2 h-2 rounded-full bg-white animate-pulse"></span>
+              <span id="text-stat-arrested">검거 완료 0명</span>
+            </span>
+            <span id="badge-stat-free" class="px-2.5 py-1 rounded-xl bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 font-bold text-xs">
+              도주 중 10명
+            </span>
+          </div>
+          <div class="text-[11px] text-zinc-400 flex items-center gap-1.5">
+            <span>🗝️ 감옥지기:</span>
+            <strong class="text-purple-300 font-bold">심완기 (고정)</strong>
+            <span class="text-zinc-600">|</span>
+            <span class="text-emerald-400">전 기기 실시간 동기화</span>
+          </div>
+        </div>
+
+        <!-- Filter Strip -->
+        <div class="flex items-center gap-1.5 flex-wrap text-xs pt-0.5">
           <span class="text-zinc-400 text-[11px] font-bold mr-1">필터:</span>
           <button onclick="setRosterFilter('all')" id="filter-all" class="px-2.5 py-1 rounded-lg font-bold bg-amber-400 text-black shadow-sm transition-all">
             전체 (16인)
           </button>
           <button onclick="setRosterFilter('police')" id="filter-police" class="px-2.5 py-1 rounded-lg font-bold bg-zinc-800 hover:bg-zinc-700 text-blue-400 border border-blue-500/30 transition-all">
-            👮 경찰 희망
+            👮 경찰 (<span id="filter-count-police">5</span>)
           </button>
-          <button onclick="setRosterFilter('thief')" id="filter-thief" class="px-2.5 py-1 rounded-lg font-bold bg-zinc-800 hover:bg-zinc-700 text-amber-400 border border-amber-500/30 transition-all">
-            🦹 도둑 희망
+          <button onclick="setRosterFilter('thief')" id="filter-thief" class="px-2.5 py-1 rounded-lg font-bold bg-zinc-800 hover:bg-zinc-700 text-amber-300 border border-amber-500/30 transition-all">
+            🦹 도둑 전체 (<span id="filter-count-thief">10</span>)
           </button>
-          <button onclick="setRosterFilter('neutral')" id="filter-neutral" class="px-2.5 py-1 rounded-lg font-bold bg-zinc-800 hover:bg-zinc-700 text-zinc-300 border border-zinc-700 transition-all">
-            🎲 무관 (상관없음)
+          <button onclick="setRosterFilter('arrested')" id="filter-arrested" class="px-2.5 py-1 rounded-lg font-bold bg-zinc-800 hover:bg-zinc-700 text-red-400 border border-red-500/30 transition-all">
+            🚨 검거 완료 (<span id="filter-count-arrested">0</span>)
           </button>
-          <button onclick="setRosterFilter('guest')" id="filter-guest" class="px-2.5 py-1 rounded-lg font-bold bg-zinc-800 hover:bg-zinc-700 text-emerald-400 border border-emerald-500/30 transition-all">
-            ✨ 게스트만 (9인)
+          <button onclick="setRosterFilter('free')" id="filter-free" class="px-2.5 py-1 rounded-lg font-bold bg-zinc-800 hover:bg-zinc-700 text-emerald-400 border border-emerald-500/30 transition-all">
+            🏃 도주 중 (<span id="filter-count-free">10</span>)
           </button>
-          <button onclick="setRosterFilter('host')" id="filter-host" class="px-2.5 py-1 rounded-lg font-bold bg-zinc-800 hover:bg-zinc-700 text-amber-300 border border-amber-500/30 transition-all">
-            ⭐ 운영진만 (7인)
+          <button onclick="setRosterFilter('warden')" id="filter-warden" class="px-2.5 py-1 rounded-lg font-bold bg-zinc-800 hover:bg-zinc-700 text-purple-400 border border-purple-500/30 transition-all">
+            🗝️ 감옥지기 (1)
           </button>
-        </div>
-
-        <div class="text-[11px] text-zinc-400 flex items-center gap-1.5 flex-wrap">
-          <span>희망 역할 집계:</span>
-          <span class="text-blue-400 font-bold" id="badge-pref-police">경찰 희망 0명</span>
-          <span>·</span>
-          <span class="text-amber-400 font-bold" id="badge-pref-thief">도둑 희망 0명</span>
-          <span>·</span>
-          <span class="text-zinc-300 font-bold" id="badge-pref-neutral">무관 0명</span>
-          <span>·</span>
-          <span class="text-purple-400 font-bold">감옥지기 1명 (심완기)</span>
         </div>
       </div>
 
@@ -458,116 +476,6 @@
         <!-- Rendered by JS -->
       </div>
     </section>
-
-    <!-- POPUP MODAL: MEMBER SPEC & PREFERRED ROLE EDIT -->
-    <div id="member-edit-modal" class="hidden fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4 overflow-y-auto">
-      <div class="relative w-full max-w-md bg-zinc-900 border-2 border-amber-400/60 rounded-3xl p-5 sm:p-6 shadow-2xl shadow-amber-400/10 space-y-4 my-8 animate-in fade-in zoom-in duration-200">
-        <!-- Modal Header -->
-        <div class="flex items-start justify-between pb-3 border-b border-zinc-800">
-          <div>
-            <div class="flex items-center gap-2">
-              <span class="text-xl">✏️</span>
-              <h3 class="text-base sm:text-lg font-extrabold text-white" id="modal-title">
-                참가자 스펙 & 희망 역할 수정
-              </h3>
-            </div>
-            <p class="text-xs text-zinc-400 mt-0.5">
-              입력하신 정보는 모든 참가자의 스마트폰과 PC에 실시간 자동 반영됩니다.
-            </p>
-          </div>
-          <button onclick="closeEditModal()" class="p-1 rounded-lg text-zinc-400 hover:text-white hover:bg-zinc-800 transition-colors">
-            ✕
-          </button>
-        </div>
-
-        <!-- Modal Form -->
-        <form onsubmit="handleModalSave(event)" class="space-y-3.5 text-xs">
-          <input type="hidden" id="modal-member-id" />
-
-          <!-- A열 이름 -->
-          <div>
-            <div class="flex items-center justify-between mb-1">
-              <label class="block font-extrabold text-amber-400">
-                🅰️ 이름
-              </label>
-              <span id="modal-name-badge" class="text-[10px] px-2 py-0.5 rounded font-bold bg-zinc-800 text-zinc-300"></span>
-            </div>
-            <input type="text" id="modal-name" required placeholder="이름 (예: 런닝맨, 지우)" class="w-full px-3 py-2.5 rounded-xl bg-zinc-950 border border-zinc-700 text-white placeholder-zinc-500 font-bold focus:outline-none focus:border-amber-400 text-sm" />
-          </div>
-
-          <!-- B열 나이 -->
-          <div>
-            <label class="block font-extrabold text-amber-400 mb-1">
-              🅱️ 나이
-            </label>
-            <input type="text" id="modal-age" placeholder="예: 31, 28, 20대 후반" class="w-full px-3 py-2.5 rounded-xl bg-zinc-950 border border-zinc-700 text-white placeholder-zinc-500 font-semibold focus:outline-none focus:border-amber-400 text-sm" />
-          </div>
-
-          <!-- C열 MBTI -->
-          <div>
-            <label class="block font-extrabold text-amber-400 mb-1">
-              🅲 MBTI
-            </label>
-            <select id="modal-mbti" class="w-full px-3 py-2.5 rounded-xl bg-zinc-950 border border-zinc-700 text-white font-bold focus:outline-none focus:border-amber-400 text-sm">
-              <option value="ENFJ">ENFJ</option>
-              <option value="ENFP">ENFP</option>
-              <option value="ENTJ">ENTJ</option>
-              <option value="ENTP">ENTP</option>
-              <option value="ESFJ">ESFJ</option>
-              <option value="ESFP">ESFP</option>
-              <option value="ESTJ">ESTJ</option>
-              <option value="ESTP">ESTP</option>
-              <option value="INFJ">INFJ</option>
-              <option value="INFP">INFP</option>
-              <option value="INTJ">INTJ</option>
-              <option value="INTP">INTP</option>
-              <option value="ISFJ">ISFJ</option>
-              <option value="ISFP">ISFP</option>
-              <option value="ISTJ">ISTJ</option>
-              <option value="ISTP">ISTP</option>
-              <option value="???">기타 / 비밀</option>
-            </select>
-          </div>
-
-          <!-- D열 특징 -->
-          <div>
-            <label class="block font-extrabold text-amber-400 mb-1">
-              🅳 특징 <span class="text-zinc-400 font-normal">(스포츠 경력, 본인 어필)</span>
-            </label>
-            <textarea id="modal-trait" rows="2" placeholder="예: 축구 5년차, 단거리 육상 출신, 은신술 달인, 달리기는 느리지만 머리가 좋음" class="w-full px-3 py-2 rounded-xl bg-zinc-950 border border-zinc-700 text-white placeholder-zinc-500 font-medium focus:outline-none focus:border-amber-400 text-xs leading-relaxed"></textarea>
-          </div>
-
-          <!-- E열: 희망 역할 (현장 배정 전 선호도 조사) -->
-          <div>
-            <label class="block font-extrabold text-amber-400 mb-1">
-              🎯 희망 역할 <span class="text-zinc-400 font-normal">(최종 배정은 현장에서 진행)</span>
-            </label>
-            <select id="modal-pref-role" class="w-full px-3 py-2.5 rounded-xl bg-zinc-950 border border-zinc-700 text-white font-bold focus:outline-none focus:border-amber-400 text-sm">
-              <option value="경찰">👮 경찰 희망</option>
-              <option value="도둑">🦹 도둑 희망</option>
-              <option value="무관">🎲 상관없음 (무관)</option>
-              <option value="감옥지기" id="modal-opt-pref-warden">🗝️ 감옥지기 (심완기 고정)</option>
-            </select>
-          </div>
-
-          <!-- Actions -->
-          <div class="pt-2 flex items-center gap-2">
-            <button type="submit" class="flex-1 py-3 rounded-xl bg-amber-400 hover:bg-amber-300 text-black font-black text-sm flex items-center justify-center gap-1.5 active:scale-95 transition-all shadow-lg shadow-amber-400/20">
-              <span>💾 저장 & 모든 기기에 실시간 반영</span>
-            </button>
-            <button type="button" onclick="closeEditModal()" class="px-4 py-3 rounded-xl bg-zinc-800 hover:bg-zinc-700 text-zinc-300 font-bold text-xs active:scale-95 transition-all">
-              취소
-            </button>
-          </div>
-
-          <div class="pt-1 text-center">
-            <button type="button" onclick="shareCurrentModalSpec()" class="text-xs text-amber-400/80 hover:text-amber-300 hover:underline">
-              💬 이 참가자 스펙 카톡 복사하기
-            </button>
-          </div>
-        </form>
-      </div>
-    </div>
 
     <!-- 6. LOCATION & PREPARATION -->
     <section id="location" class="rounded-3xl bg-zinc-900 border border-zinc-800 p-5 sm:p-6 shadow-xl">
@@ -787,25 +695,25 @@
       if (btn) btn.innerText = '▶ 시작';
     }
 
-    // 4. ROSTER & SPREADSHEET (A~D열) SPEC SYSTEM
+    // 4. ROSTER & REALTIME ARREST TRACKING SYSTEM
     const defaultMembers = [
       { id: 1, name: '정영준', title: '방장', age: '', mbti: 'ENFJ', trait: '', role: '경찰', prefRole: '경찰', isHost: true },
       { id: 2, name: '김준형', title: '부방장', age: '', mbti: 'ENFP', trait: '', role: '경찰', prefRole: '경찰', isHost: true },
       { id: 3, name: '기명찬', title: '실장', age: '', mbti: 'ISTJ', trait: '', role: '경찰', prefRole: '경찰', isHost: true },
       { id: 4, name: '심완기', title: '고문', age: '', mbti: 'ISFJ', trait: '', role: '감옥지기', prefRole: '감옥지기', isHost: true },
       { id: 5, name: '권성환', title: '작가', age: '', mbti: 'ISFP', trait: '', role: '경찰', prefRole: '경찰', isHost: true },
-      { id: 6, name: '최은혜', title: '영양사', age: '', mbti: 'INTP', trait: '', role: '도둑', prefRole: '도둑', isHost: true },
-      { id: 7, name: '이준수', title: '비서', age: '', mbti: 'ISFP', trait: '', role: '도둑', prefRole: '도둑', isHost: true },
-      // 9 Guest Slots (Initial: 1 police, 8 thieves -> Total 5 police, 10 thieves, 1 warden)
-      { id: 8, name: '게스트 1', title: '게스트', age: '', mbti: '???', trait: '', role: '경찰', prefRole: '무관', isHost: false },
-      { id: 9, name: '게스트 2', title: '게스트', age: '', mbti: '???', trait: '', role: '도둑', prefRole: '무관', isHost: false },
-      { id: 10, name: '게스트 3', title: '게스트', age: '', mbti: '???', trait: '', role: '도둑', prefRole: '무관', isHost: false },
-      { id: 11, name: '게스트 4', title: '게스트', age: '', mbti: '???', trait: '', role: '도둑', prefRole: '무관', isHost: false },
-      { id: 12, name: '게스트 5', title: '게스트', age: '', mbti: '???', trait: '', role: '도둑', prefRole: '무관', isHost: false },
-      { id: 13, name: '게스트 6', title: '게스트', age: '', mbti: '???', trait: '', role: '도둑', prefRole: '무관', isHost: false },
-      { id: 14, name: '게스트 7', title: '게스트', age: '', mbti: '???', trait: '', role: '도둑', prefRole: '무관', isHost: false },
-      { id: 15, name: '게스트 8', title: '게스트', age: '', mbti: '???', trait: '', role: '도둑', prefRole: '무관', isHost: false },
-      { id: 16, name: '게스트 9', title: '게스트', age: '', mbti: '???', trait: '', role: '도둑', prefRole: '무관', isHost: false }
+      { id: 6, name: '최은혜', title: '영양사', age: '', mbti: 'INTP', trait: '', role: '도둑', prefRole: '도둑', isHost: true, arrested: false },
+      { id: 7, name: '이준수', title: '비서', age: '', mbti: 'ISFP', trait: '', role: '도둑', prefRole: '도둑', isHost: true, arrested: false },
+      // 9 Guest Slots (1 police, 8 thieves -> Total 5 police, 10 thieves, 1 warden)
+      { id: 8, name: '게스트 1', title: '게스트', age: '', mbti: '???', trait: '', role: '경찰', prefRole: '경찰', isHost: false },
+      { id: 9, name: '게스트 2', title: '게스트', age: '', mbti: '???', trait: '', role: '도둑', prefRole: '도둑', isHost: false, arrested: false },
+      { id: 10, name: '게스트 3', title: '게스트', age: '', mbti: '???', trait: '', role: '도둑', prefRole: '도둑', isHost: false, arrested: false },
+      { id: 11, name: '게스트 4', title: '게스트', age: '', mbti: '???', trait: '', role: '도둑', prefRole: '도둑', isHost: false, arrested: false },
+      { id: 12, name: '게스트 5', title: '게스트', age: '', mbti: '???', trait: '', role: '도둑', prefRole: '도둑', isHost: false, arrested: false },
+      { id: 13, name: '게스트 6', title: '게스트', age: '', mbti: '???', trait: '', role: '도둑', prefRole: '도둑', isHost: false, arrested: false },
+      { id: 14, name: '게스트 7', title: '게스트', age: '', mbti: '???', trait: '', role: '도둑', prefRole: '도둑', isHost: false, arrested: false },
+      { id: 15, name: '게스트 8', title: '게스트', age: '', mbti: '???', trait: '', role: '도둑', prefRole: '도둑', isHost: false, arrested: false },
+      { id: 16, name: '게스트 9', title: '게스트', age: '', mbti: '???', trait: '', role: '도둑', prefRole: '도둑', isHost: false, arrested: false }
     ];
 
     let members = [];
@@ -820,10 +728,10 @@
       members = JSON.parse(JSON.stringify(defaultMembers));
     }
 
-    // Ensure prefRole is populated for any older records
+    // Ensure arrested field is initialized for all thieves
     members.forEach(m => {
-      if (!m.prefRole) {
-        m.prefRole = m.role === '감옥지기' ? '감옥지기' : (m.role || '무관');
+      if (m.role === '도둑' && typeof m.arrested !== 'boolean') {
+        m.arrested = false;
       }
     });
 
@@ -837,7 +745,7 @@
 
     function setRosterFilter(filter) {
       currentFilter = filter;
-      const filters = ['all', 'police', 'thief', 'neutral', 'guest', 'host'];
+      const filters = ['all', 'arrested', 'free', 'thief', 'police', 'warden'];
       filters.forEach(f => {
         const btn = document.getElementById('filter-' + f);
         if (btn) {
@@ -845,11 +753,11 @@
             btn.className = 'px-2.5 py-1 rounded-lg font-bold bg-amber-400 text-black shadow-sm transition-all';
           } else {
             let color = 'text-zinc-300 border-zinc-700';
+            if (f === 'arrested') color = 'text-red-400 border-red-500/30';
+            if (f === 'free') color = 'text-amber-400 border-amber-500/30';
+            if (f === 'thief') color = 'text-amber-300 border-amber-500/30';
             if (f === 'police') color = 'text-blue-400 border-blue-500/30';
-            if (f === 'thief') color = 'text-amber-400 border-amber-500/30';
-            if (f === 'neutral') color = 'text-zinc-300 border-zinc-700';
-            if (f === 'guest') color = 'text-emerald-400 border-emerald-500/30';
-            if (f === 'host') color = 'text-amber-300 border-amber-500/30';
+            if (f === 'warden') color = 'text-purple-400 border-purple-500/30';
             btn.className = `px-2.5 py-1 rounded-lg font-bold bg-zinc-800 hover:bg-zinc-700 ${color} border transition-all`;
           }
         }
@@ -858,10 +766,9 @@
     }
 
     // ==========================================
-    // 5. ZERO-CONFIG REALTIME CLOUD LIVE SYNC
+    // 5. FIRST-PARTY LIVE REALTIME SYNC (SSE + REST API)
     // ==========================================
     const clientSessionId = 'user_' + Math.random().toString(36).substring(2, 10);
-    const CLOUD_SYNC_URL = 'https://ntfy.sh/daehyunsan_chase_8th_sync';
     let sseSource = null;
     let toastTimer = null;
 
@@ -884,11 +791,11 @@
           timestamp: Date.now(),
           members: members
         };
-        fetch(CLOUD_SYNC_URL + '/publish', {
+        fetch('/api/sync', {
           method: 'POST',
-          headers: { 'Title': 'Roster Live Sync' },
+          headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(payload)
-        }).catch(err => console.log('Cloud publish err:', err));
+        }).catch(err => console.log('Sync push error:', err));
       } catch (e) {
         console.log(e);
       }
@@ -897,23 +804,24 @@
     function startCloudRealtimeListener() {
       try {
         if (sseSource) sseSource.close();
-        sseSource = new EventSource(CLOUD_SYNC_URL + '/sse');
+        sseSource = new EventSource('/api/sync/events');
         sseSource.onmessage = function(event) {
           try {
-            const msg = JSON.parse(event.data);
-            if (msg && msg.message) {
-              const payload = JSON.parse(msg.message);
-              if (payload && payload.senderId !== clientSessionId && Array.isArray(payload.members) && payload.members.length >= 16) {
-                members = payload.members;
+            const data = JSON.parse(event.data);
+            if (data && data.members && Array.isArray(data.members) && data.members.length >= 16) {
+              if (data.senderId !== clientSessionId) {
+                members = data.members;
                 saveRoster();
                 renderRoster();
-                showCloudToast('⚡ 다른 기기에서 입력된 스펙이 실시간으로 동기화되었습니다!');
+                if (data.type === 'update') {
+                  showCloudToast('⚡ 다른 기기에서 역할/검거 현황이 실시간 동기화되었습니다!');
+                }
               }
             }
           } catch (e) {}
         };
         sseSource.onerror = function() {
-          // Keep alive or reconnect
+          setTimeout(startCloudRealtimeListener, 4000);
         };
       } catch (e) {}
     }
@@ -922,28 +830,19 @@
       const statusBadge = document.getElementById('cloud-sync-status-badge');
       if (statusBadge && isManual) statusBadge.innerText = '⚡ 실시간 동기화 중...';
 
-      fetch(CLOUD_SYNC_URL + '/json?poll=1&since=24h')
-        .then(res => res.text())
-        .then(text => {
+      fetch('/api/sync')
+        .then(res => res.json())
+        .then(data => {
           if (statusBadge) statusBadge.innerText = '⚡ 실시간 클라우드 자동 연동 중';
-          if (!text) return;
-          const lines = text.trim().split('\n');
-          for (let i = lines.length - 1; i >= 0; i--) {
-            try {
-              const item = JSON.parse(lines[i]);
-              if (item.message) {
-                const payload = JSON.parse(item.message);
-                if (payload && Array.isArray(payload.members) && payload.members.length >= 16) {
-                  members = payload.members;
-                  saveRoster();
-                  renderRoster();
-                  if (isManual) {
-                    showCloudToast('✅ 최신 선수단 스펙을 모두 불러왔습니다!');
-                  }
-                  break;
-                }
-              }
-            } catch (e) {}
+          if (data && data.members && Array.isArray(data.members) && data.members.length >= 16) {
+            members = data.members;
+            saveRoster();
+            renderRoster();
+            if (isManual) {
+              showCloudToast('✅ 최신 선수단 및 검거 현황을 불러왔습니다!');
+            }
+          } else if (members && members.length >= 16) {
+            broadcastToCloud();
           }
         })
         .catch(() => {
@@ -952,172 +851,93 @@
     }
 
     // ==========================================
-    // 6. POPUP MODAL SPEC & PREFERRED ROLE EDITING
+    // 6. REALTIME ROLE MANIPULATION & ARREST TOGGLE
     // ==========================================
-    let editingMemberId = null;
-
-    function openEditModal(id) {
+    function setMemberRole(id, newRole) {
       const m = members.find(item => item.id === id);
-      if (!m) return;
-      editingMemberId = id;
+      if (!m || m.name === '심완기' || m.role === '감옥지기') return;
+      if (m.role === newRole) return;
 
-      document.getElementById('modal-member-id').value = id;
-      const modalTitle = document.getElementById('modal-title');
-      const nameInput = document.getElementById('modal-name');
-      const nameBadge = document.getElementById('modal-name-badge');
-      const ageInput = document.getElementById('modal-age');
-      const mbtiSelect = document.getElementById('modal-mbti');
-      const traitInput = document.getElementById('modal-trait');
-      const prefRoleSelect = document.getElementById('modal-pref-role');
-      const optPrefWarden = document.getElementById('modal-opt-pref-warden');
-
-      modalTitle.innerText = `${m.name} (${m.title}) 스펙 & 희망 역할`;
-      nameInput.value = m.name;
-      ageInput.value = m.age || '';
-      mbtiSelect.value = m.mbti && m.mbti !== '???' ? m.mbti : 'ENFP';
-      traitInput.value = m.trait || '';
-      prefRoleSelect.value = m.prefRole || '무관';
-
-      if (m.isHost) {
-        nameBadge.classList.remove('hidden');
-        nameBadge.innerText = '⭐ 운영진 (' + m.title + ')';
-        nameInput.readOnly = true;
-        nameInput.classList.add('bg-zinc-800', 'text-amber-300');
-        mbtiSelect.disabled = true;
-        mbtiSelect.classList.add('bg-zinc-800', 'text-amber-300');
-      } else {
-        nameBadge.classList.remove('hidden');
-        nameBadge.innerText = '✨ 게스트';
-        nameInput.readOnly = false;
-        nameInput.classList.remove('bg-zinc-800', 'text-amber-300');
-        mbtiSelect.disabled = false;
-        mbtiSelect.classList.remove('bg-zinc-800', 'text-amber-300');
+      m.role = newRole;
+      if (newRole === '경찰') {
+        m.arrested = false;
+      } else if (newRole === '도둑') {
+        m.arrested = false;
       }
-
-      if (m.name === '심완기') {
-        if (optPrefWarden) optPrefWarden.classList.remove('hidden');
-        prefRoleSelect.value = '감옥지기';
-        prefRoleSelect.disabled = true;
-      } else {
-        if (optPrefWarden) optPrefWarden.classList.add('hidden');
-        prefRoleSelect.disabled = false;
-      }
-
-      document.getElementById('member-edit-modal').classList.remove('hidden');
-      setTimeout(() => {
-        if (!m.isHost && (nameInput.value.startsWith('게스트 ') || !nameInput.value)) {
-          nameInput.focus();
-          nameInput.select();
-        } else {
-          ageInput.focus();
-        }
-      }, 100);
-    }
-
-    function closeEditModal() {
-      document.getElementById('member-edit-modal').classList.add('hidden');
-      editingMemberId = null;
-    }
-
-    function handleModalSave(e) {
-      e.preventDefault();
-      if (!editingMemberId) return;
-      const m = members.find(item => item.id === editingMemberId);
-      if (!m) return;
-
-      const newName = document.getElementById('modal-name').value.trim();
-      const newAge = document.getElementById('modal-age').value.trim();
-      const newMbti = document.getElementById('modal-mbti').value;
-      const newTrait = document.getElementById('modal-trait').value.trim();
-      const newPrefRole = document.getElementById('modal-pref-role').value;
-
-      if (!newName) {
-        alert('이름을 입력해 주세요.');
-        return;
-      }
-
-      if (!m.isHost) {
-        m.name = newName;
-        m.mbti = newMbti;
-      }
-      m.age = newAge;
-      m.trait = newTrait;
-      m.prefRole = m.name === '심완기' ? '감옥지기' : newPrefRole;
 
       saveRoster();
       renderRoster();
       broadcastToCloud();
 
-      playWhistle();
-      closeEditModal();
-      showCloudToast(`✅ [${m.name}]님의 스펙과 희망 역할이 모든 기기에 실시간 반영되었습니다!`);
-    }
-
-    function shareCurrentModalSpec() {
-      const name = document.getElementById('modal-name').value.trim() || '참가자';
-      const age = document.getElementById('modal-age').value.trim() || '미입력';
-      const mbti = document.getElementById('modal-mbti').value;
-      const trait = document.getElementById('modal-trait').value.trim() || '추격전 출전!';
-      const prefRole = document.getElementById('modal-pref-role').value;
-
-      const text = `🚨 [제8회 보드방정 대현산 추격전] 참가 스펙\n👤 이름: ${name}\n🎂 나이: ${age}\n🧠 MBTI: ${mbti}\n🎯 희망 역할: ${prefRole} (최종 배정은 현장 진행)\n🅳 특징: ${trait}`;
-      if (navigator.clipboard) {
-        navigator.clipboard.writeText(text).then(() => {
-          alert('💬 카카오톡 공유용 스펙이 복사되었습니다!\n단톡방에 바로 붙여넣어 주세요.');
-        });
+      if (newRole === '경찰') {
+        playPoliceSiren();
+        showCloudToast(`👮 [${m.name}]님이 경찰로 배정되었습니다.`);
       } else {
-        alert(text);
+        playWhistle();
+        showCloudToast(`🦹 [${m.name}]님이 도둑으로 배정되었습니다. (체포 시 터치 활성화)`);
       }
     }
 
-    // 게스트 정보 초기화 후 즉시 다시 입력할 수 있도록 팝업 오픈 (운영진 제외)
-    function resetAndReinputGuest(id) {
-      const target = members.find(m => m.id === id);
-      if (!target || target.isHost) return; // 운영진은 절대 초기화 불가
-
-      const guestIndex = members.filter(m => !m.isHost).indexOf(target) + 1;
-      target.name = `게스트 ${guestIndex}`;
-      target.age = '';
-      target.mbti = '???';
-      target.trait = '';
-      target.prefRole = '무관';
-
+    function toggleArrest(id) {
+      const m = members.find(item => item.id === id);
+      if (!m || m.role !== '도둑') return;
+      m.arrested = !m.arrested;
       saveRoster();
       renderRoster();
       broadcastToCloud();
 
-      // 정보 초기화 후 즉시 다시 입력 팝업 오픈
-      openEditModal(id);
+      if (m.arrested) {
+        playPoliceSiren();
+        const remaining = members.filter(item => item.role === '도둑' && !item.arrested).length;
+        showCloudToast(`🚨 [${m.name}] 검거 완료! 감옥에 수감되었습니다. (남은 도둑 ${remaining}명)`);
+      } else {
+        playWhistle();
+        showCloudToast(`🗝️ [${m.name}] 감옥 탈출/석방 완료! 다시 도주 중입니다.`);
+      }
     }
 
     // ==========================================
-    // 7. RENDER ROSTER CARDS (희망 역할 표시 중심)
+    // 7. RENDER ROSTER CARDS (역할 직접 조작 & 도둑 전용 체포 터치)
     // ==========================================
     function renderRoster() {
       const cardContainer = document.getElementById('roster-card-view');
       if (!cardContainer) return;
       cardContainer.innerHTML = '';
 
-      // Count preferences
-      const prefPoliceCount = members.filter(m => m.prefRole === '경찰').length;
-      const prefThiefCount = members.filter(m => m.prefRole === '도둑').length;
-      const prefNeutralCount = members.filter(m => m.prefRole !== '경찰' && m.prefRole !== '도둑' && m.prefRole !== '감옥지기').length;
+      // Count police, thieves, and arrested
+      const police = members.filter(m => m.role === '경찰');
+      const thieves = members.filter(m => m.role === '도둑');
+      const arrestedCount = thieves.filter(m => m.arrested).length;
+      const freeCount = thieves.length - arrestedCount;
 
-      const badgePolice = document.getElementById('badge-pref-police');
-      const badgeThief = document.getElementById('badge-pref-thief');
-      const badgeNeutral = document.getElementById('badge-pref-neutral');
-      if (badgePolice) badgePolice.innerText = `경찰 희망 ${prefPoliceCount}명`;
-      if (badgeThief) badgeThief.innerText = `도둑 희망 ${prefThiefCount}명`;
-      if (badgeNeutral) badgeNeutral.innerText = `무관 ${prefNeutralCount}명`;
+      const badgePolice = document.getElementById('badge-stat-police');
+      const badgeThiefTotal = document.getElementById('badge-stat-thief-total');
+      const textArrested = document.getElementById('text-stat-arrested');
+      const badgeFree = document.getElementById('badge-stat-free');
+
+      if (badgePolice) badgePolice.innerText = `경찰 ${police.length}명`;
+      if (badgeThiefTotal) badgeThiefTotal.innerText = `도둑 ${thieves.length}명`;
+      if (textArrested) textArrested.innerText = `검거 완료 ${arrestedCount}명`;
+      if (badgeFree) badgeFree.innerText = `도주 중 ${freeCount}명`;
+
+      // Filter counters
+      const filterPolice = document.getElementById('filter-count-police');
+      const filterThief = document.getElementById('filter-count-thief');
+      const filterArrested = document.getElementById('filter-count-arrested');
+      const filterFree = document.getElementById('filter-count-free');
+      if (filterPolice) filterPolice.innerText = police.length;
+      if (filterThief) filterThief.innerText = thieves.length;
+      if (filterArrested) filterArrested.innerText = arrestedCount;
+      if (filterFree) filterFree.innerText = freeCount;
 
       // Filter members
       const displayMembers = members.filter((m) => {
         if (currentFilter === 'all') return true;
-        if (currentFilter === 'police') return m.prefRole === '경찰';
-        if (currentFilter === 'thief') return m.prefRole === '도둑';
-        if (currentFilter === 'neutral') return m.prefRole !== '경찰' && m.prefRole !== '도둑' && m.prefRole !== '감옥지기';
-        if (currentFilter === 'guest') return !m.isHost;
-        if (currentFilter === 'host') return m.isHost;
+        if (currentFilter === 'police') return m.role === '경찰';
+        if (currentFilter === 'thief') return m.role === '도둑';
+        if (currentFilter === 'arrested') return m.role === '도둑' && m.arrested;
+        if (currentFilter === 'free') return m.role === '도둑' && !m.arrested;
+        if (currentFilter === 'warden') return m.role === '감옥지기' || m.name === '심완기';
         return true;
       });
 
@@ -1127,27 +947,85 @@
       }
 
       displayMembers.forEach((m) => {
-        // Preference Badge & Border Styles (역할 배정은 현장에서 진행, 희망 역할 표시)
-        let prefBadge = '';
+        let roleSelectorHtml = '';
         let cardBorderClass = '';
         let cardGlow = '';
+        let statusBoxHtml = '';
+        let bottomActionHtml = '';
 
-        if (m.name === '심완기' || m.prefRole === '감옥지기') {
-          prefBadge = '<span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-xl text-xs font-black bg-purple-600 text-white shadow-md border border-purple-400/50">🗝️ 감옥지기</span>';
+        if (m.name === '심완기' || m.role === '감옥지기') {
+          roleSelectorHtml = '<span class="inline-flex items-center gap-1 px-3 py-1.5 rounded-xl text-xs font-black bg-purple-600 text-white shadow-md border border-purple-400/50">🗝️ 감옥지기 (고정)</span>';
           cardBorderClass = 'border-purple-500/50 bg-gradient-to-br from-purple-950/30 to-zinc-900';
           cardGlow = 'border-purple-500/30 bg-purple-950/20';
-        } else if (m.prefRole === '경찰') {
-          prefBadge = '<span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-xl text-xs font-black bg-blue-600 text-white shadow-md shadow-blue-900/40 border border-blue-400/50">👮 경찰 희망</span>';
-          cardBorderClass = 'border-blue-500/50 bg-gradient-to-br from-blue-950/30 to-zinc-900';
-          cardGlow = 'border-blue-500/30 bg-blue-950/20';
-        } else if (m.prefRole === '도둑') {
-          prefBadge = '<span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-xl text-xs font-black bg-amber-400 text-black shadow-md shadow-amber-950/40 border border-amber-300">🦹 도둑 희망</span>';
-          cardBorderClass = 'border-amber-500/50 bg-gradient-to-br from-amber-950/30 to-zinc-900';
-          cardGlow = 'border-amber-500/30 bg-amber-950/20';
+          statusBoxHtml = `
+            <div class="flex items-center justify-between text-[11px] pb-1 border-b border-zinc-800/60">
+              <span class="text-zinc-400 font-bold">임무 관할:</span>
+              <span class="text-purple-300 font-bold">감옥 통제 & 구출 퀴즈 출제</span>
+            </div>
+          `;
         } else {
-          prefBadge = '<span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-xl text-xs font-bold bg-zinc-800 text-zinc-300 border border-zinc-700">🎲 상관없음 (무관)</span>';
-          cardBorderClass = 'border-zinc-800 bg-zinc-900/90 hover:border-zinc-700';
-          cardGlow = 'border-zinc-800/80 bg-zinc-950/50';
+          // 경찰 vs 도둑 직접 조작 스위치
+          const isPolice = m.role === '경찰';
+          const isThief = m.role === '도둑';
+          
+          roleSelectorHtml = `
+            <div class="inline-flex p-0.5 rounded-xl bg-zinc-950 border border-zinc-800 shadow-inner">
+              <button onclick="setMemberRole(${m.id}, '경찰')" class="px-2.5 py-1 rounded-lg text-xs font-black transition-all ${isPolice ? 'bg-blue-600 text-white shadow-md shadow-blue-900/60' : 'text-zinc-400 hover:text-white'}">
+                👮 경찰
+              </button>
+              <button onclick="setMemberRole(${m.id}, '도둑')" class="px-2.5 py-1 rounded-lg text-xs font-black transition-all ${isThief ? (m.arrested ? 'bg-red-600 text-white shadow-md shadow-red-950/60 animate-pulse' : 'bg-amber-400 text-black shadow-md shadow-amber-950/40') : 'text-zinc-400 hover:text-white'}">
+                🦹 도둑
+              </button>
+            </div>
+          `;
+
+          if (isPolice) {
+            cardBorderClass = 'border-blue-500/50 bg-gradient-to-br from-blue-950/30 to-zinc-900';
+            cardGlow = 'border-blue-500/30 bg-blue-950/20';
+            statusBoxHtml = `
+              <div class="flex items-center justify-between text-[11px] pb-1 border-b border-zinc-800/60">
+                <span class="text-zinc-400 font-bold">임무 관할:</span>
+                <span class="text-blue-300 font-bold">도둑 추격 & 체포 (손가락 막대기)</span>
+              </div>
+            `;
+            // 경찰일 경우 체포 버튼 없음
+            bottomActionHtml = '';
+          } else {
+            // 도둑일 경우: 체포 시 터치 버튼 표시
+            if (m.arrested) {
+              cardBorderClass = 'border-red-500/80 bg-gradient-to-br from-red-950/40 via-zinc-900 to-zinc-950 shadow-red-950/20';
+              cardGlow = 'border-red-500/40 bg-red-950/30';
+              statusBoxHtml = `
+                <div class="flex items-center justify-between text-[11px] pb-1 border-b border-red-500/30">
+                  <span class="text-zinc-400 font-bold">🚨 체포 현황:</span>
+                  <span class="text-red-400 font-black flex items-center gap-1 animate-pulse">🔒 감옥 수감 중 (검거 완료)</span>
+                </div>
+              `;
+              bottomActionHtml = `
+                <div class="pt-1">
+                  <button onclick="toggleArrest(${m.id})" class="w-full py-2.5 rounded-xl bg-zinc-800 hover:bg-emerald-950 text-zinc-300 hover:text-emerald-300 text-xs font-bold border border-zinc-700 active:scale-95 transition-all flex items-center justify-center gap-1.5 shadow-sm">
+                    <span>🗝️ 퀴즈 통과 / 구출 시 터치 (도주 중으로 복귀)</span>
+                  </button>
+                </div>
+              `;
+            } else {
+              cardBorderClass = 'border-amber-500/50 bg-gradient-to-br from-amber-950/25 to-zinc-900';
+              cardGlow = 'border-amber-500/30 bg-amber-950/20';
+              statusBoxHtml = `
+                <div class="flex items-center justify-between text-[11px] pb-1 border-b border-zinc-800/60">
+                  <span class="text-zinc-400 font-bold">🚨 체포 현황:</span>
+                  <span class="text-emerald-400 font-bold flex items-center gap-1">🏃 필드 도주 중 (생존)</span>
+                </div>
+              `;
+              bottomActionHtml = `
+                <div class="pt-1">
+                  <button onclick="toggleArrest(${m.id})" class="w-full py-2.5 rounded-xl bg-red-950/60 hover:bg-red-600 text-red-200 hover:text-white text-xs font-black border border-red-700/60 active:scale-95 transition-all flex items-center justify-center gap-1.5 shadow-sm">
+                    <span>🚨 체포 시 터치 (검거 완료)</span>
+                  </button>
+                </div>
+              `;
+            }
+          }
         }
 
         // Title badge
@@ -1157,10 +1035,10 @@
 
         // Card Element
         const card = document.createElement('div');
-        card.className = `p-4 sm:p-4.5 rounded-2xl border-2 ${cardBorderClass} flex flex-col justify-between space-y-3 shadow-xl transition-all hover:scale-[1.01]`;
+        card.className = `p-4 sm:p-4.5 rounded-2xl border-2 ${cardBorderClass} flex flex-col justify-between space-y-3 shadow-xl transition-all`;
         
         card.innerHTML = `
-          <!-- Card Top: Name & Preferred Role Badge -->
+          <!-- Card Top: Name & Role Switcher -->
           <div class="flex items-start justify-between gap-2">
             <div>
               <div class="flex items-center gap-1.5 flex-wrap">
@@ -1174,57 +1052,57 @@
               </div>
             </div>
             <div class="text-right shrink-0">
-              ${prefBadge}
+              ${roleSelectorHtml}
             </div>
           </div>
 
-          <!-- Card Middle: Trait & Preference Box -->
-          <div class="p-3 rounded-xl bg-zinc-950/80 border ${cardGlow} space-y-1.5 text-xs">
-            <div class="flex items-center justify-between text-[11px] pb-1 border-b border-zinc-800/60">
-              <span class="text-zinc-400 font-bold">🎯 선호 역할:</span>
-              <span class="font-bold ${m.prefRole === '경찰' ? 'text-blue-300' : m.prefRole === '도둑' ? 'text-amber-300' : m.prefRole === '감옥지기' ? 'text-purple-300' : 'text-zinc-400'}">
-                ${m.prefRole === '경찰' ? '경찰 선호 (추격·체포 희망)' : m.prefRole === '도둑' ? '도둑 선호 (도주·생존 희망)' : m.prefRole === '감옥지기' ? '감옥지기 (퀴즈 출제·감옥 통제)' : '역할 상관없음 (무관)'}
-              </span>
-            </div>
+          <!-- Card Middle: Trait & Arrest Status Box -->
+          <div class="p-3 rounded-xl bg-zinc-950/85 border ${cardGlow} space-y-1.5 text-xs">
+            ${statusBoxHtml}
             <div class="pt-0.5">
               <span class="text-zinc-400 font-bold mr-1">🅳 특징:</span>
               ${m.trait 
                 ? '<span class="text-amber-200 font-bold break-keep leading-relaxed">' + m.trait + '</span>' 
-                : '<span class="text-zinc-500 italic">미입력 (스펙 수정을 눌러 등록)</span>'
+                : '<span class="text-zinc-500 italic">특징 미입력</span>'
               }
             </div>
           </div>
 
-          <!-- Card Bottom Action: Prominent Edit Button & Reset for Guests only -->
-          <div class="pt-1 flex items-center gap-2">
-            <button onclick="openEditModal(${m.id})" class="flex-1 py-2.5 rounded-xl bg-zinc-800 hover:bg-amber-400 hover:text-black text-amber-300 font-black text-xs border border-zinc-700 active:scale-95 transition-all flex items-center justify-center gap-1.5 shadow-sm">
-              <span>✏️ 스펙 & 희망 수정</span>
-            </button>
-            ${!m.isHost ? `
-              <button onclick="resetAndReinputGuest(${m.id})" class="px-2.5 py-2.5 rounded-xl bg-zinc-900 hover:bg-red-950/60 text-zinc-400 hover:text-red-300 text-xs border border-zinc-800 active:scale-95 transition-all flex items-center gap-1 font-bold shrink-0" title="정보 초기화 후 다시 입력">
-                <span>↺ 재입력</span>
-              </button>
-            ` : ''}
-          </div>
+          ${bottomActionHtml}
         `;
         cardContainer.appendChild(card);
       });
     }
 
     function copyRosterText() {
-      const policePref = members.filter(m => m.prefRole === '경찰').length;
-      const thiefPref = members.filter(m => m.prefRole === '도둑').length;
-      const neutralPref = members.filter(m => m.prefRole !== '경찰' && m.prefRole !== '도둑' && m.prefRole !== '감옥지기').length;
+      const thieves = members.filter(m => m.role === '도둑');
+      const arrestedCount = thieves.filter(m => m.arrested).length;
+      const freeCount = thieves.length - arrestedCount;
+      const policeCount = members.filter(m => m.role === '경찰').length;
 
-      let text = `📋 [제8회 보드방정 대현산 추격전] 선수단 명단 & 희망 역할\n총 16인 (경찰 희망 ${policePref}명 · 도둑 희망 ${thiefPref}명 · 무관 ${neutralPref}명 · 감옥지기 1명)\n※ 최종 역할 배정(경찰 5 vs 도둑 10)은 현장에서 방장/운영진이 진행합니다.\n\n`;
-      members.forEach((m, idx) => {
-        const pref = m.name === '심완기' ? '감옥지기' : (m.prefRole || '무관');
-        text += `${idx + 1}. [희망: ${pref}] ${m.name} (${m.age ? m.age + '세' : '나이미입력'} / ${m.mbti}) - 특징: ${m.trait || '특징미입력'}\n`;
+      let text = `📋 [제8회 보드방정 대현산 추격전] 선수단 현황 & 실시간 검거 상태\n`;
+      text += `총 16인 (경찰 ${policeCount}명 · 감옥지기 1명 · 도둑 10명 [🚨검거: ${arrestedCount}명 / 🏃도주: ${freeCount}명])\n\n`;
+
+      text += `【👮 경찰 팀 (5명)】\n`;
+      members.filter(m => m.role === '경찰').forEach((m, idx) => {
+        text += `${idx + 1}. ${m.name} (${m.age ? m.age + '세' : '나이미입력'} / ${m.mbti}) - ${m.trait || '스펙미입력'}\n`;
+      });
+
+      text += `\n【🗝️ 감옥지기 (1명)】\n`;
+      const warden = members.find(m => m.name === '심완기' || m.role === '감옥지기');
+      if (warden) {
+        text += `1. ${warden.name} (${warden.age ? warden.age + '세' : '나이미입력'} / ${warden.mbti}) - 감옥 관리 & 퀴즈 출제\n`;
+      }
+
+      text += `\n【🦹 도둑 팀 (10명)】\n`;
+      members.filter(m => m.role === '도둑').forEach((m, idx) => {
+        const status = m.arrested ? '🚨검거완료(수감중)' : '🏃도주중(생존)';
+        text += `${idx + 1}. [${status}] ${m.name} (${m.age ? m.age + '세' : '나이미입력'} / ${m.mbti}) - ${m.trait || '스펙미입력'}\n`;
       });
 
       if (navigator.clipboard) {
         navigator.clipboard.writeText(text).then(() => {
-          alert('📋 선수단 전체 명단과 희망 역할이 복사되었습니다!\n단톡방에 바로 공유하실 수 있습니다.');
+          alert('📋 실시간 검거 현황 및 선수단 명단이 복사되었습니다!\n단톡방에 바로 공유하실 수 있습니다.');
         });
       } else {
         alert(text);
@@ -1269,8 +1147,18 @@
     fetchLatestFromCloud();
     startCloudRealtimeListener();
     renderRoster();
-    // Auto-poll fallback every 10 seconds
-    setInterval(() => fetchLatestFromCloud(false), 10000);
+    // Auto-poll fallback every 3 seconds for mobile network resilience
+    setInterval(() => fetchLatestFromCloud(false), 3000);
+
+    // Immediate sync when mobile screen wakes up or user returns to tab
+    window.addEventListener('visibilitychange', () => {
+      if (document.visibilityState === 'visible') {
+        fetchLatestFromCloud(false);
+      }
+    });
+    window.addEventListener('focus', () => {
+      fetchLatestFromCloud(false);
+    });
   </script>
 </body>
 </html>
